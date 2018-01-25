@@ -23,7 +23,6 @@ function init() {
 
   render();
 
-  // canvas mouse event
   var canvas = document.getElementById('tabs-canvas');
   canvas.addEventListener("mousemove", onCanvasMouseMove);
 }
@@ -153,9 +152,6 @@ var Tab = function(canvas, params) {
   this.drawCloseButton = function(hightlight){
     this.ctx.save();
     var rect = this.closeButtonRect();
-    // this.ctx.fillStyle = 'red';
-    // this.ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
-    // this.ctx.restore();
 
     const minX = rect.x;
     const maxX = rect.x + rect.width;
