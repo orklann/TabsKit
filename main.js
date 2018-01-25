@@ -21,12 +21,12 @@ function init() {
 }
 
 var tabNumber = 0;
-const tabHeight = 28;
+const tabHeight = 22;
 const tabWidth = 80;
 const defaultTabBackground = "#cecccf";
 const activeTabBackground = "white";
 const deltaXForTabs = 5;
-const deltaYForTabs = 8;
+const deltaYForTabs = 4;
 const radius = 5;
 
 var Tab = function(canvas) {
@@ -48,22 +48,8 @@ var Tab = function(canvas) {
     const minX = this.tabRect.x;
     const minY = this.tabRect.y - this.tabRect.height;
     const maxX = this.tabRect.x + this.tabRect.width;
-    const maxY = this.tabRect.y;
-
-    const bottomLeft = {x: this.tabRect.x, y: this.tabRect.y};
-    const topLeft = {
-      x: this.tabRect.x,
-      y: this.tabRect.y - this.tabRect.height
-    };
-    const bottomRight = {
-      x: this.tabRect.x + this.tabRect.width,
-      y: this.tabRect.y
-    };
-    const topRight = {
-      x: this.tabRect.x + this.tabRect.width,
-      y: this.tabRect.y - this.tabRect.height
-    };
-
+    const maxY = this.tabRect.y - 0.5;
+    const noborderMaxY = this.tabRect.y;
     // We use arcTo(x1, y1, x2, y2, radius) to construct rounded corners
     // See http://www.dbp-consulting.com/tutorials/canvas/CanvasArcTo.html
     if (active) {
@@ -74,9 +60,9 @@ var Tab = function(canvas) {
       // Fill path
       this.ctx.beginPath();
       // bottom left arc
-      this.ctx.moveTo(parseInt(bottomLeft.x) + 0, parseInt(bottomLeft.y) + 0);
-      this.ctx.arcTo(parseInt(bottomLeft.x + radius) + 0, parseInt(maxY) + 0,
-         parseInt(bottomLeft.x + radius) + 0, parseInt(midY) + 0, radius);
+      this.ctx.moveTo(parseInt(minX) + 0, parseInt(noborderMaxY) + 0);
+      this.ctx.arcTo(parseInt(minX + radius) + 0, parseInt(noborderMaxY) + 0,
+         parseInt(minX + radius) + 0, parseInt(midY) + 0, radius);
 
       // top left arc
       this.ctx.arcTo(parseInt(minX + radius) + 0, parseInt(minY) + 0,
@@ -87,8 +73,8 @@ var Tab = function(canvas) {
        parseInt(maxX - radius) + 0, parseInt(midY) + 0, radius);
 
       // bottom right arc
-      this.ctx.arcTo(parseInt(maxX - radius) + 0, parseInt(maxY) + 0,
-        parseInt(maxX) + 0, parseInt(maxY) + 0, radius);
+      this.ctx.arcTo(parseInt(maxX - radius) + 0, parseInt(noborderMaxY) + 0,
+        parseInt(maxX) + 0, parseInt(noborderMaxY) + 0, radius);
 
       // close path and fill
       this.ctx.closePath();
@@ -97,9 +83,9 @@ var Tab = function(canvas) {
       // Stroke the same path
       this.ctx.beginPath();
       // bottom left arc
-      this.ctx.moveTo(parseInt(bottomLeft.x) + 0, parseInt(bottomLeft.y) + 0);
-      this.ctx.arcTo(parseInt(bottomLeft.x + radius) + 0, parseInt(maxY) + 0,
-         parseInt(bottomLeft.x + radius) + 0, parseInt(midY) + 0, radius);
+      this.ctx.moveTo(parseInt(minX) + 0, parseInt(maxY) + 0);
+      this.ctx.arcTo(parseInt(minX + radius) + 0, parseInt(maxY) + 0,
+         parseInt(minX + radius) + 0, parseInt(midY) + 0, radius);
 
       // top left arc
       this.ctx.arcTo(parseInt(minX + radius) + 0, parseInt(minY) + 0,
@@ -112,6 +98,9 @@ var Tab = function(canvas) {
       // bottom right arc
       this.ctx.arcTo(parseInt(maxX - radius) + 0, parseInt(maxY) + 0,
         parseInt(maxX) + 0, parseInt(maxY) + 0, radius);
+
+      this.ctx.lineTo(parseInt(maxX + 100) + 0, parseInt(maxY) + 0);
+
       this.ctx.stroke();
     } else {
 
