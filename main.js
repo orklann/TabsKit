@@ -26,7 +26,7 @@ const tabWidth = 100;
 const defaultTabBackground = "#cecccf";
 const activeTabBackground = "white";
 const deltaXForTabs = 5;
-const deltaYForTabs = 4;
+const deltaYForTabs = 3;
 const radius = 5;
 
 var Tab = function(canvas) {
