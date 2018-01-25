@@ -53,11 +53,13 @@ function drawTabbar(attrs) {
   drawTabbarBottom(ctx);
 
   var t = new Tab(canvas, {title: "Main"});
+  t.width = 60;
   t.draw({highlightCloseButton: false});
   var t2 = new Tab(canvas, {title: "Typo"});
   t2.active = true;
 
   var t3 = new Tab(canvas, {title: "Mono"});
+  t3.width = 200;
   t3.draw({highlightCloseButton: false});
 
   t2.draw({highlightCloseButton: false});
@@ -97,14 +99,19 @@ var Tab = function(canvas, params) {
   this.sepcialTab = false;
   this.title = params.title;
   this.active = false;
+  this.width = tabWidth;
   tabs.push(this);
 
   this.tabRect =  function() {
     const index = tabs.indexOf(this);
     var rect = {};
-    rect.x = index * tabWidth + leftPadding;
+    var prevTabsLength = 0;
+    for (var i = 0; i < index; i++) {
+      prevTabsLength += tabs[i].width;
+    }
+    rect.x = prevTabsLength + leftPadding;
     rect.y = tabHeight;
-    rect.width = tabWidth;
+    rect.width = this.width;
     rect.height = tabHeight - deltaYForTabs;
     return rect;
   }
