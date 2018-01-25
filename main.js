@@ -12,7 +12,7 @@ function init() {
     var ctx = canvas.getContext('2d');
     ctx.canvas.width  = window.innerWidth;
     ctx.canvas.style.width = window.innerWidth + "px";
-
+    //ctx.translate(0, 0);
     var t = new Tab(canvas);
     t.draw(true);
   }
@@ -26,7 +26,8 @@ const tabWidth = 80;
 const defaultTabBackground = "#cecccf";
 const activeTabBackground = "white";
 const deltaXForTabs = 5;
-const radius = 4;
+const deltaYForTabs = 8;
+const radius = 5;
 
 var Tab = function(canvas) {
   this.canvas = canvas;
@@ -35,9 +36,9 @@ var Tab = function(canvas) {
 
   this.tabRect = {};
   this.tabRect.x = (this.tabNumber - 1) * tabWidth;
-  this.tabRect.y = tabHeight - 0.5;
+  this.tabRect.y = tabHeight;
   this.tabRect.width = tabWidth;
-  this.tabRect.height = tabHeight;
+  this.tabRect.height = tabHeight - deltaYForTabs;
 
   this.draw = function(active) {
     this.ctx.save();
@@ -67,16 +68,50 @@ var Tab = function(canvas) {
     // See http://www.dbp-consulting.com/tutorials/canvas/CanvasArcTo.html
     if (active) {
       this.ctx.lineWidth = 2;
-      this.ctx.strokeStyle = 'red';
-      this.ctx.globalAlpha = 1.0;
+      this.ctx.strokeStyle = '#5a5a5a';
+      this.ctx.fillStyle = 'white';
 
-      // bottom arc
-      this.ctx.moveTo(bottomLeft.x, bottomLeft.y);
-      this.ctx.arcTo(bottomLeft.x + deltaXForTabs + radius, maxY,
-         bottomLeft.x + deltaXForTabs + radius, midY, radius);
+      // Fill path
+      this.ctx.beginPath();
+      // bottom left arc
+      this.ctx.moveTo(parseInt(bottomLeft.x) + 0, parseInt(bottomLeft.y) + 0);
+      this.ctx.arcTo(parseInt(bottomLeft.x + radius) + 0, parseInt(maxY) + 0,
+         parseInt(bottomLeft.x + radius) + 0, parseInt(midY) + 0, radius);
 
       // top left arc
-      this.ctx.arcTo(minX + deltaXForTabs + radius, minY, midX, minY, radius);
+      this.ctx.arcTo(parseInt(minX + radius) + 0, parseInt(minY) + 0,
+       parseInt(midX) + 0, parseInt(minY) + 0, radius);
+
+      // top right arc
+      this.ctx.arcTo(parseInt(maxX - radius) + 0, parseInt(minY) + 0,
+       parseInt(maxX - radius) + 0, parseInt(midY) + 0, radius);
+
+      // bottom right arc
+      this.ctx.arcTo(parseInt(maxX - radius) + 0, parseInt(maxY) + 0,
+        parseInt(maxX) + 0, parseInt(maxY) + 0, radius);
+
+      // close path and fill
+      this.ctx.closePath();
+      this.ctx.fill();
+
+      // Stroke the same path
+      this.ctx.beginPath();
+      // bottom left arc
+      this.ctx.moveTo(parseInt(bottomLeft.x) + 0, parseInt(bottomLeft.y) + 0);
+      this.ctx.arcTo(parseInt(bottomLeft.x + radius) + 0, parseInt(maxY) + 0,
+         parseInt(bottomLeft.x + radius) + 0, parseInt(midY) + 0, radius);
+
+      // top left arc
+      this.ctx.arcTo(parseInt(minX + radius) + 0, parseInt(minY) + 0,
+       parseInt(midX) + 0, parseInt(minY) + 0, radius);
+
+      // top right arc
+      this.ctx.arcTo(parseInt(maxX - radius) + 0, parseInt(minY) + 0,
+       parseInt(maxX - radius) + 0, parseInt(midY) + 0, radius);
+
+      // bottom right arc
+      this.ctx.arcTo(parseInt(maxX - radius) + 0, parseInt(maxY) + 0,
+        parseInt(maxX) + 0, parseInt(maxY) + 0, radius);
       this.ctx.stroke();
     } else {
 
