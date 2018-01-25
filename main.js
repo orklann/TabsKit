@@ -25,6 +25,7 @@ function init() {
 
   var canvas = document.getElementById('tabs-canvas');
   canvas.addEventListener("mousemove", onCanvasMouseMove);
+  canvas.addEventListener("mousedown", onCanvasMouseDown);
 }
 
 function onCanvasMouseMove(event) {
@@ -32,6 +33,14 @@ function onCanvasMouseMove(event) {
   var pos = getMousePos(canvas, event);
   tabs.forEach(function(tab){
     tab.onMouseMove(pos);
+  });
+}
+
+function onCanvasMouseDown(event) {
+  var canvas = document.getElementById('tabs-canvas');
+  var pos = getMousePos(canvas, event);
+  tabs.forEach(function(tab){
+    tab.onMouseDown(pos);
   });
 }
 
@@ -194,6 +203,13 @@ var Tab = function(canvas, params) {
       this.draw({active: true, highlightCloseButton: true})
     } else{
       this.draw({active: true, highlightCloseButton: false});
+    }
+  }
+
+  this.onMouseDown = function(p) {
+    if (pointInRect(p, this.closeButtonRect())) {
+      // TODO: handle close button clicking here
+      console.log('Mouse click on close button');
     }
   }
 }
