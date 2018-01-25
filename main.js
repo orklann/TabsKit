@@ -1,5 +1,5 @@
 var tabNumber = 0;
-const tabHeight = 22;
+const tabHeight = 24;
 const tabWidth = 90;
 const defaultTabbarBackground = "#cecccf";
 const activeTabBackground = "white";
