@@ -55,7 +55,9 @@ function drawTabbar(attrs) {
 
   var t = new Tab(canvas, {title: "Main"});
   t.width = 60;
+  t.normalBackground = "#ff8c00";
   t.draw({highlightCloseButton: false});
+
   var t2 = new Tab(canvas, {title: "Typo"});
   t2.active = true;
 
@@ -105,6 +107,7 @@ var Tab = function(canvas, params) {
   this.active = false;
   this.width = tabWidth;
   tabs.push(this);
+  this.normalBackground = normalTabBackground;
 
   this.tabRect =  function() {
     const index = tabs.indexOf(this);
@@ -204,7 +207,7 @@ var Tab = function(canvas, params) {
       this.ctx.save();
       this.ctx.lineWidth = 2;
       this.ctx.strokeStyle = '#999999';
-      this.ctx.fillStyle = '#cecccf';
+      this.ctx.fillStyle = this.normalBackground;
 
       /////////////////
       // Fill path
