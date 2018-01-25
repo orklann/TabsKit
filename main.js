@@ -22,11 +22,24 @@ function init() {
     drawTabbar();
   }
 
-  render();
-
   var canvas = document.getElementById('tabs-canvas');
   canvas.addEventListener("mousemove", onCanvasMouseMove);
   canvas.addEventListener("mousedown", onCanvasMouseDown);
+
+  var t = new Tab(canvas, {title: "Main"});
+  t.width = 60;
+  t.normalBackground = "#ff8c00";
+
+  var t2 = new Tab(canvas, {title: "Typo"});
+  t2.active = true;
+
+  var t3 = new Tab(canvas, {title: "Mono"});
+  t3.width = 100;
+
+  var t4 = new Tab(canvas, {title: "Mono"});
+  t4.width = 100;
+
+  render();
 }
 
 function onCanvasMouseMove(event) {
@@ -52,23 +65,8 @@ function drawTabbar(attrs) {
   ctx.canvas.style.width = window.innerWidth + "px";
 
   drawTabbarBottom(ctx);
-
-  var t = new Tab(canvas, {title: "Main"});
-  t.width = 60;
-  t.normalBackground = "#ff8c00";
-  t.draw({highlightCloseButton: false});
-
-  var t2 = new Tab(canvas, {title: "Typo"});
-  t2.active = true;
-
-  var t3 = new Tab(canvas, {title: "Mono"});
-  t3.width = 200;
-  t3.draw({highlightCloseButton: false});
-
-  var t4 = new Tab(canvas, {title: "Mono"});
-  t4.width = 200;
-  t4.draw({highlightCloseButton: false});
-  t2.draw({highlightCloseButton: false});
+  drawAllNormalTabs();
+  drawActiveTab();
 }
 
 function drawTabbarBottom(ctx) {
@@ -93,7 +91,16 @@ function drawTabbarBottom(ctx) {
 function drawAllNormalTabs() {
   tabs.forEach(function(tab){
     if (!tab.active) {
-      tab.draw({});
+      tab.draw({highlightCloseButton: false});
+    }
+  });
+}
+
+function drawActiveTab() {
+  tabs.forEach(function(tab){
+    if (tab.active) {
+      tab.draw({highlightCloseButton: false});
+      return ;
     }
   });
 }
