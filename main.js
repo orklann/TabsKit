@@ -1,7 +1,5 @@
 function init() {
   console.log("Main loaded");
-
-  var canvas = document.getElementById('tabs-canvas');
   window.addEventListener('resize', resizeCanvas, false);
 
   function resizeCanvas() {
@@ -9,15 +7,34 @@ function init() {
   }
 
   function render() {
-    var ctx = canvas.getContext('2d');
-    ctx.canvas.width  = window.innerWidth;
-    ctx.canvas.style.width = window.innerWidth + "px";
-    //ctx.translate(0, 0);
-    var t = new Tab(canvas);
-    t.draw(true);
+    drawTabbar();
   }
 
   render();
+}
+
+function drawTabbar() {
+  var canvas = document.getElementById('tabs-canvas');
+  var ctx = canvas.getContext('2d');
+  ctx.canvas.width  = window.innerWidth;
+  ctx.canvas.style.width = window.innerWidth + "px";
+
+  ctx.save();
+  // Draw Tabbar bottom line
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#999999';
+  const minX = 0;
+  const maxX = parseInt(ctx.canvas.width);
+  const minY = parseInt(ctx.canvas.height) - 0.5;
+
+  ctx.moveTo(minX, minY - 0.5); // magic number: 5 to the same line width as Tab
+  ctx.lineTo(maxX, minY);
+  ctx.stroke();
+
+  ctx.restore();
+
+  var t = new Tab(canvas);
+  t.draw(true);
 }
 
 var tabNumber = 0;
@@ -28,6 +45,7 @@ const activeTabBackground = "white";
 const deltaXForTabs = 5;
 const deltaYForTabs = 3;
 const radius = 5;
+const leftPadding = 10;
 
 var Tab = function(canvas) {
   this.canvas = canvas;
@@ -35,7 +53,7 @@ var Tab = function(canvas) {
   this.tabNumber = tabNumber + 1;
 
   this.tabRect = {};
-  this.tabRect.x = (this.tabNumber - 1) * tabWidth;
+  this.tabRect.x = (this.tabNumber - 1) * tabWidth + leftPadding;
   this.tabRect.y = tabHeight;
   this.tabRect.width = tabWidth;
   this.tabRect.height = tabHeight - deltaYForTabs;
