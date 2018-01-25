@@ -1,3 +1,13 @@
+var tabNumber = 0;
+const tabHeight = 22;
+const tabWidth = 90;
+const defaultTabBackground = "#cecccf";
+const activeTabBackground = "white";
+const deltaXForTabs = 5;
+const deltaYForTabs = 3;
+const radius = 4;
+const leftPadding = 10;
+
 function init() {
   console.log("Main loaded");
   window.addEventListener('resize', resizeCanvas, false);
@@ -36,16 +46,6 @@ function drawTabbar() {
   var t = new Tab(canvas);
   t.draw(true);
 }
-
-var tabNumber = 0;
-const tabHeight = 22;
-const tabWidth = 100;
-const defaultTabBackground = "#cecccf";
-const activeTabBackground = "white";
-const deltaXForTabs = 5;
-const deltaYForTabs = 3;
-const radius = 5;
-const leftPadding = 10;
 
 var Tab = function(canvas) {
   this.canvas = canvas;
