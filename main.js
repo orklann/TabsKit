@@ -1,17 +1,18 @@
 var tabNumber = 0;
 const tabHeight = 22;
 const tabWidth = 90;
-const defaultTabBackground = "#cecccf";
+const defaultTabbarBackground = "#cecccf";
 const activeTabBackground = "white";
 const deltaXForTabs = 5;
 const deltaYForTabs = 3;
 const radius = 4;
 const leftPadding = 10;
 
+var tabs = [];
+
 function init() {
   console.log("Main loaded");
   window.addEventListener('resize', resizeCanvas, false);
-
   function resizeCanvas() {
     render();
   }
@@ -21,14 +22,34 @@ function init() {
   }
 
   render();
+
+  // canvas mouse event
+  var canvas = document.getElementById('tabs-canvas');
+  canvas.addEventListener("mousemove", onCanvasMouseMove);
 }
 
-function drawTabbar() {
+function onCanvasMouseMove(event) {
+  var canvas = document.getElementById('tabs-canvas');
+  var pos = getMousePos(canvas, event);
+  tabs.forEach(function(tab){
+    tab.onMouseMove(pos);
+  });
+}
+
+function drawTabbar(attrs) {
   var canvas = document.getElementById('tabs-canvas');
   var ctx = canvas.getContext('2d');
   ctx.canvas.width  = window.innerWidth;
   ctx.canvas.style.width = window.innerWidth + "px";
 
+  drawTabbarBottom(ctx);
+
+  var t = new Tab(canvas, {title: "Typo"});
+  t.draw({active: true, highlightCloseButton: false});
+  tabs.push(t);
+}
+
+function drawTabbarBottom(ctx) {
   ctx.save();
   // Draw Tabbar bottom line
   ctx.lineWidth = 2;
@@ -42,9 +63,6 @@ function drawTabbar() {
   ctx.stroke();
 
   ctx.restore();
-
-  var t = new Tab(canvas, {title: "Typo"});
-  t.draw(true);
 }
 
 var Tab = function(canvas, params) {
@@ -60,7 +78,7 @@ var Tab = function(canvas, params) {
   this.tabRect.width = tabWidth;
   this.tabRect.height = tabHeight - deltaYForTabs;
 
-  this.draw = function(active) {
+  this.draw = function(attrs) {
     this.ctx.save();
 
     const midX = this.tabRect.x + (this.tabRect.width / 2);
@@ -75,7 +93,7 @@ var Tab = function(canvas, params) {
     const noborderMaxY = this.tabRect.y;
     // We use arcTo(x1, y1, x2, y2, radius) to construct rounded corners
     // See http://www.dbp-consulting.com/tutorials/canvas/CanvasArcTo.html
-    if (active) {
+    if (attrs.active) {
       this.ctx.lineWidth = 2;
       this.ctx.strokeStyle = '#999999';
       this.ctx.fillStyle = 'white';
@@ -129,11 +147,10 @@ var Tab = function(canvas, params) {
     } else {
 
     }
-
-    this.drawCloseButton()
+    this.drawCloseButton(attrs.highlightCloseButton);
   }
 
-  this.drawCloseButton = function(){
+  this.drawCloseButton = function(hightlight){
     this.ctx.save();
     var rect = this.closeButtonRect();
     // this.ctx.fillStyle = 'red';
@@ -145,7 +162,12 @@ var Tab = function(canvas, params) {
     const minY = rect.y;
     const maxY = rect.y + rect.height;
 
-    this.ctx.strokeStyle = "#cecccf";
+    if (hightlight) {
+      this.ctx.strokeStyle = "#999999";
+    } else {
+      this.ctx.strokeStyle = "#cecccf";
+    }
+
     this.ctx.lineWidth = 2;
     this.ctx.beginPath();
     this.ctx.moveTo(minX, minY);
@@ -167,6 +189,16 @@ var Tab = function(canvas, params) {
     const y = maxY - ((tabHeight - deltaYForTabs - height) / 2) - height;
 
     return {x: x, y: y, width: width, height: height};
+  }
+
+  this.onMouseMove = function(p) {
+    clear(this.canvas, defaultTabbarBackground);
+    drawTabbarBottom(this.ctx);
+    if (pointInRect(p, this.closeButtonRect())) {
+      this.draw({active: true, highlightCloseButton: true})
+    } else{
+      this.draw({active: true, highlightCloseButton: false});
+    }
   }
 }
 
