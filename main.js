@@ -35,10 +35,10 @@ function drawTabbar() {
   ctx.strokeStyle = '#999999';
   const minX = 0;
   const maxX = parseInt(ctx.canvas.width);
-  const minY = parseInt(ctx.canvas.height) - 0.5;
+  const maxY = parseInt(ctx.canvas.height) - 0.5;
 
-  ctx.moveTo(minX, minY - 0.5); // magic number: 5 to the same line width as Tab
-  ctx.lineTo(maxX, minY);
+  ctx.moveTo(minX, maxY - 0.5); // magic number: 5 to the same line width as Tab
+  ctx.lineTo(maxX, maxY);
   ctx.stroke();
 
   ctx.restore();
@@ -125,10 +125,48 @@ var Tab = function(canvas, params) {
       this.ctx.lineTo(parseInt(maxX + 100) + 0, parseInt(maxY) + 0);
 
       this.ctx.stroke();
+      this.ctx.restore();
     } else {
 
     }
+
+    this.drawCloseButton()
+  }
+
+  this.drawCloseButton = function(){
+    this.ctx.save();
+    var rect = this.closeButtonRect();
+    // this.ctx.fillStyle = 'red';
+    // this.ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+    // this.ctx.restore();
+
+    const minX = rect.x;
+    const maxX = rect.x + rect.width;
+    const minY = rect.y;
+    const maxY = rect.y + rect.height;
+
+    this.ctx.strokeStyle = "#cecccf";
+    this.ctx.lineWidth = 2;
+    this.ctx.beginPath();
+    this.ctx.moveTo(minX, minY);
+    this.ctx.lineTo(maxX, maxY);
+    this.ctx.moveTo(minX, maxY);
+    this.ctx.lineTo(maxX, minY);
+    this.ctx.stroke();
     this.ctx.restore();
+  }
+
+  this.closeButtonRect = function() {
+    const width = 6;
+    const height = 6;
+    const leftMargin = 10;
+
+    const minX = this.tabRect.x ;
+    const maxY = this.tabRect.y;
+    const x = minX + leftMargin;
+    const y = maxY - ((tabHeight - deltaYForTabs - height) / 2) - height;
+
+    return {x: x, y: y, width: width, height: height};
   }
 }
 
