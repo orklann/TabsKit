@@ -56,6 +56,10 @@ function drawTabbar(attrs) {
   t.draw({highlightCloseButton: false});
   var t2 = new Tab(canvas, {title: "Typo"});
   t2.active = true;
+
+  var t3 = new Tab(canvas, {title: "Mono"});
+  t3.draw({highlightCloseButton: false});
+
   t2.draw({highlightCloseButton: false});
 }
 
@@ -108,9 +112,9 @@ var Tab = function(canvas, params) {
   this.draw = function(attrs) {
     const midX = this.tabRect().x + (this.tabRect().width / 2);
     const midY = this.tabRect().y - (this.tabRect().height / 2);
-    const minX = this.tabRect().x;
+    var minX = this.tabRect().x;
     const minY = this.tabRect().y - this.tabRect().height;
-    const maxX = this.tabRect().x + this.tabRect().width;
+    var maxX = this.tabRect().x + this.tabRect().width;
 
     // -0.5 to feed canvas stroke API for perfect line width
     // noborderMaxY feed canvas fill API for whole fill
@@ -124,6 +128,17 @@ var Tab = function(canvas, params) {
       this.ctx.lineWidth = 2;
       this.ctx.strokeStyle = '#999999';
       this.ctx.fillStyle = 'white';
+
+      // Substract minX by deltaXForTabs
+      // Restore minX to original value at the end
+      // We do this to minX, maxX for drawing active tab more closing to normal tabs
+      const MIN_X = minX;
+      minX = MIN_X - deltaXForTabs;
+
+      // Add maxX by deltaXForTabs
+      // Restore maxX to original value at the end
+      const MAX_X = maxX;
+      maxX = MAX_X + deltaXForTabs;
 
       // Fill path
       this.ctx.beginPath();
@@ -171,6 +186,9 @@ var Tab = function(canvas, params) {
 
       this.ctx.stroke();
       this.ctx.restore();
+
+      minX = MIN_X;
+      maxX = MAX_X;
     } else {
       this.ctx.save();
       this.ctx.lineWidth = 2;
@@ -210,11 +228,11 @@ var Tab = function(canvas, params) {
        parseInt(midX) + 0, parseInt(minY) + 0, radius);
 
       // top right arc
-      this.ctx.arcTo(parseInt(maxX + deltaXForTabs) + 0, parseInt(minY) + 0,
-       parseInt(maxX + deltaXForTabs) + 0, parseInt(midY) + 0, radius);
+      this.ctx.arcTo(parseInt(maxX) + 0, parseInt(minY) + 0,
+       parseInt(maxX) + 0, parseInt(midY) + 0, radius);
 
       // line to bottom
-      this.ctx.lineTo(parseInt(maxX + deltaXForTabs) + 0, parseInt(maxY) + 0);
+      this.ctx.lineTo(parseInt(maxX) + 0, parseInt(maxY) + 0);
 
       // line to bottom left
       this.ctx.lineTo(parseInt(minX) + 0, parseInt(maxY) + 0);
