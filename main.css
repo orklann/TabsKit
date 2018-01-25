@@ -1,11 +1,16 @@
 #tabs {
 	background-color: #cecccf;
 	height: 28px;
-	width: 100%;
 }
 
 #tabs-canvas {
-	background-color: inherit;
-	height: 100%;
+	background-color: #cecccf;
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 	width: 100%;
+	height: 28px;
 }
