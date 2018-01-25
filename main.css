@@ -1,0 +1,11 @@
+#tabs {
+	background-color: #cecccf;
+	height: 28px;
+	width: 100%;
+}
+
+#tabs-canvas {
+	background-color: inherit;
+	height: 100%;
+	width: 100%;
+}
