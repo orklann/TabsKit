@@ -3,6 +3,7 @@ const tabHeight = 22;
 const tabWidth = 90;
 const defaultTabbarBackground = "#cecccf";
 const activeTabBackground = "white";
+const normalTabBackground = "#cecccf";
 const deltaXForTabs = 2;
 const deltaYForTabs = 3;
 const radius = 4;
@@ -62,6 +63,9 @@ function drawTabbar(attrs) {
   t3.width = 200;
   t3.draw({highlightCloseButton: false});
 
+  var t4 = new Tab(canvas, {title: "Mono"});
+  t4.width = 200;
+  t4.draw({highlightCloseButton: false});
   t2.draw({highlightCloseButton: false});
 }
 
@@ -215,11 +219,11 @@ var Tab = function(canvas, params) {
        parseInt(midX) + 0, parseInt(minY) + 0, radius);
 
       // top right arc
-      this.ctx.arcTo(parseInt(maxX + deltaXForTabs) + 0, parseInt(minY) + 0,
-       parseInt(maxX + deltaXForTabs) + 0, parseInt(midY) + 0, radius);
+      this.ctx.arcTo(parseInt(maxX) + 0, parseInt(minY) + 0,
+       parseInt(maxX) + 0, parseInt(midY) + 0, radius);
 
       // line to bottom
-      this.ctx.lineTo(parseInt(maxX + deltaXForTabs) + 0, parseInt(noborderMaxY) + 0);
+      this.ctx.lineTo(parseInt(maxX) + 0, parseInt(noborderMaxY) + 0);
       // close path and fill
       this.ctx.closePath();
       this.ctx.fill();
