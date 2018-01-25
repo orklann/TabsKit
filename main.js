@@ -48,6 +48,9 @@ var Tab = function(canvas) {
     const minX = this.tabRect.x;
     const minY = this.tabRect.y - this.tabRect.height;
     const maxX = this.tabRect.x + this.tabRect.width;
+
+    // -0.5 to feed canvas stroke API for perfect line width
+    // noborderMaxY feed canvas fill API for whole fill
     const maxY = this.tabRect.y - 0.5;
     const noborderMaxY = this.tabRect.y;
     // We use arcTo(x1, y1, x2, y2, radius) to construct rounded corners
