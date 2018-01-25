@@ -22,7 +22,7 @@ function init() {
 
 var tabNumber = 0;
 const tabHeight = 22;
-const tabWidth = 80;
+const tabWidth = 100;
 const defaultTabBackground = "#cecccf";
 const activeTabBackground = "white";
 const deltaXForTabs = 5;
