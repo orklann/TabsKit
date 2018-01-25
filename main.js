@@ -57,7 +57,7 @@ var Tab = function(canvas) {
     // See http://www.dbp-consulting.com/tutorials/canvas/CanvasArcTo.html
     if (active) {
       this.ctx.lineWidth = 2;
-      this.ctx.strokeStyle = '#5a5a5a';
+      this.ctx.strokeStyle = '#999999';
       this.ctx.fillStyle = 'white';
 
       // Fill path
