@@ -12,14 +12,11 @@ function init() {
     var ctx = canvas.getContext('2d');
     ctx.canvas.width  = window.innerWidth;
     ctx.canvas.style.width = window.innerWidth + "px";
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = 'red';
-    ctx.moveTo(0, 28);
-    ctx.lineTo(ctx.canvas.width, 28);
-    ctx.stroke();
+
+    var t = new Tab(canvas);
+    t.draw(true);
   }
-  //t = new Tab(canvas);
-  //t.draw(true);
+
   render();
 }
 
@@ -38,7 +35,7 @@ var Tab = function(canvas) {
 
   this.tabRect = {};
   this.tabRect.x = (this.tabNumber - 1) * tabWidth;
-  this.tabRect.y = tabHeight;
+  this.tabRect.y = tabHeight - 0.5;
   this.tabRect.width = tabWidth;
   this.tabRect.height = tabHeight;
 
@@ -69,17 +66,17 @@ var Tab = function(canvas) {
     // We use arcTo(x1, y1, x2, y2, radius) to construct rounded corners
     // See http://www.dbp-consulting.com/tutorials/canvas/CanvasArcTo.html
     if (active) {
-      this.ctx.lineWidth = 1;
-      this.ctx.strokeStyle = 'rgb(50,50,0)';
+      this.ctx.lineWidth = 2;
+      this.ctx.strokeStyle = 'red';
       this.ctx.globalAlpha = 1.0;
-    //  this.ctx.beginPath();
-      this.ctx.moveTo(0, 28);
-      this.ctx.lineTo(40, 28);
+
       // bottom arc
-      // this.ctx.moveTo(bottomLeft.x, bottomLeft.y);
-      // this.ctx.lineTo(bottomLeft.x + deltaXForTabs + radius, maxY);
-      //this.ctx.arcTo(bottomLeft.x + deltaXForTabs + radius, maxY,
-      //   bottomLeft.x + deltaXForTabs + radius, midY, radius);
+      this.ctx.moveTo(bottomLeft.x, bottomLeft.y);
+      this.ctx.arcTo(bottomLeft.x + deltaXForTabs + radius, maxY,
+         bottomLeft.x + deltaXForTabs + radius, midY, radius);
+
+      // top left arc
+      this.ctx.arcTo(minX + deltaXForTabs + radius, minY, midX, minY, radius);
       this.ctx.stroke();
     } else {
 
