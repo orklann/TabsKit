@@ -12,7 +12,7 @@ const leftPadding = 10;
 var tabs = [];
 
 function init() {
-  console.log("Main loaded");
+  console.log("TabsKit loaded.");
   window.addEventListener('resize', resizeCanvas, false);
   function resizeCanvas() {
     render();
