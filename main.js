@@ -258,6 +258,7 @@ var Tab = function(canvas, params) {
   }
 
   this.drawCloseButton = function(hightlight){
+    if (!this.active) return ;
     this.ctx.save();
     var rect = this.closeButtonRect();
 
