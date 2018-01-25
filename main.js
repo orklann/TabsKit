@@ -43,15 +43,16 @@ function drawTabbar() {
 
   ctx.restore();
 
-  var t = new Tab(canvas);
+  var t = new Tab(canvas, {title: "Typo"});
   t.draw(true);
 }
 
-var Tab = function(canvas) {
+var Tab = function(canvas, params) {
   this.canvas = canvas;
   this.ctx = canvas.getContext('2d');
   this.tabNumber = tabNumber + 1;
   this.sepcialTab = false;
+  this.title = params.title;
 
   this.tabRect = {};
   this.tabRect.x = (this.tabNumber - 1) * tabWidth + leftPadding;
