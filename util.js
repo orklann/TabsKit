@@ -25,3 +25,10 @@ function clear(canvas, color) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.restore();
 }
+
+/* test purpose
+function parseInt(x) {
+  console.log("parseInt");
+  return x;
+}
+*/
