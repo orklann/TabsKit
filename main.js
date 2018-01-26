@@ -1,4 +1,3 @@
-var tabNumber = 0;
 const tabHeight = 24;
 const tabWidth = 90;
 const defaultTabbarBackground = "#cecccf";
@@ -8,6 +7,7 @@ const deltaXForTabs = 2;
 const deltaYForTabs = 4;
 const radius = 4;
 const leftPadding = 10;
+const rightPadding = 14;
 
 var tabs = [];
 
@@ -114,6 +114,36 @@ var Tab = function(canvas, params) {
   this.width = tabWidth;
   tabs.push(this);
   this.normalBackground = normalTabBackground;
+  this.titleElement = null;
+
+  // Render title dom
+  this.addTitleDom = function(){
+    const rect = this.tabRect();
+    rect.y = rect.y - rect.height;
+    if (!this.titleElement) {
+      this.titleElement = document.createElement('div');
+      this.layoutTitle();
+      document.body.appendChild(this.titleElement);
+    }
+  }
+
+  this.layoutTitle = function() {
+    const rect = this.tabRect();
+    rect.y = rect.y - rect.height;
+    if (this.titleElement) {
+      if(this.active) {
+        this.titleElement.className = "active-title";
+      } else {
+        this.titleElement.className = "title";
+      }
+      this.titleElement.style.left = rect.x + "px";
+      this.titleElement.style.top = rect.y + "px";
+      this.titleElement.style.width = rect.width + "px";
+      this.titleElement.style.height = rect.height + "px";
+      this.titleElement.style.lineHeight = rect.height + "px";
+      this.titleElement.innerText = this.title;
+    }
+  }
 
   this.tabRect =  function() {
     const index = tabs.indexOf(this);
@@ -127,6 +157,27 @@ var Tab = function(canvas, params) {
     rect.width = this.width;
     rect.height = tabHeight - deltaYForTabs;
     return rect;
+  }
+
+  this.titleRect = function(){
+      const tabRect = this.tabRect();
+      const closeRect = this.closeButtonRect();
+
+      if (this.active) {
+        const h = 14;
+        const w = tabRect.width - closeRect.width - leftPadding - rightPadding;
+        const x = closeRect.x + closeRect.width + 5;
+        const y = tabRect.y - ((tabRect.height - h) /2) - h;
+
+        return {x: x, y: y, width: w, height: h};
+      } else{
+        const h = 14;
+        const w = tabRect.width - leftPadding - leftPadding;
+        const x = tabRect.x + leftPadding;
+        const y = tabRect.y - ((tabRect.height - h) /2) - h;
+
+        return {x: x, y: y, width: w, height: h};
+      }
   }
 
   this.draw = function(attrs) {
@@ -266,6 +317,8 @@ var Tab = function(canvas, params) {
       this.ctx.restore();
     }
     this.drawCloseButton(attrs.highlightCloseButton);
+    this.addTitleDom();
+    this.layoutTitle();
   }
 
   this.drawCloseButton = function(hightlight){
@@ -291,6 +344,17 @@ var Tab = function(canvas, params) {
     this.ctx.moveTo(minX, maxY);
     this.ctx.lineTo(maxX, minY);
     this.ctx.stroke();
+    this.ctx.restore();
+  }
+
+  this.drawTitle = function() {
+    const rect = this.titleRect();
+    console.log("==");
+    console.log(rect);
+    console.log("###");
+    this.ctx.save();
+    this.ctx.fillStyle = "blue";
+    this.ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
     this.ctx.restore();
   }
 
