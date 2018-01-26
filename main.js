@@ -10,6 +10,10 @@ const leftPadding = 10;
 const rightPadding = 14;
 
 var tabs = [];
+var Tabbar = {
+  // Register a callback to onTabClose to get notification
+  onTabClose: null
+};
 
 function init() {
   console.log("TabsKit loaded.");
@@ -390,6 +394,9 @@ var Tab = function(canvas, params) {
   this.onMouseDown = function(p) {
     if (pointInRect(p, this.closeButtonRect())) {
       if (this.active && tabs.length > 1 && this.canBeClosed) {
+        if (Tabbar.onTabClose) {
+          Tabbar.onTabClose(this);
+        }
         this.remove();
         return ;
       }
