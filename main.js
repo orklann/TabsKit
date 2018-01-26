@@ -5,7 +5,7 @@ const defaultTabbarBackground = "#cecccf";
 const activeTabBackground = "white";
 const normalTabBackground = "#cecccf";
 const deltaXForTabs = 2;
-const deltaYForTabs = 3;
+const deltaYForTabs = 4;
 const radius = 4;
 const leftPadding = 10;
 
@@ -108,7 +108,6 @@ function drawActiveTab() {
 var Tab = function(canvas, params) {
   this.canvas = canvas;
   this.ctx = canvas.getContext('2d');
-  this.tabNumber = tabNumber + 1;
   this.sepcialTab = false;
   this.title = params.title;
   this.active = false;
@@ -134,7 +133,7 @@ var Tab = function(canvas, params) {
     const midX = this.tabRect().x + (this.tabRect().width / 2);
     const midY = this.tabRect().y - (this.tabRect().height / 2);
     var minX = this.tabRect().x;
-    const minY = this.tabRect().y - this.tabRect().height;
+    var minY = this.tabRect().y - this.tabRect().height;
     var maxX = this.tabRect().x + this.tabRect().width;
 
     // -0.5 to feed canvas stroke API for perfect line width
@@ -160,6 +159,10 @@ var Tab = function(canvas, params) {
       // Restore maxX to original value at the end
       const MAX_X = maxX;
       maxX = MAX_X + deltaXForTabs;
+
+      // Substract minY, restore to origin at the end
+      const MIN_Y = minY;
+      minY = MIN_Y + 1;
 
       // Fill path
       this.ctx.beginPath();
@@ -210,6 +213,7 @@ var Tab = function(canvas, params) {
 
       minX = MIN_X;
       maxX = MAX_X;
+      minY = MIN_Y;
     } else {
       this.ctx.save();
       this.ctx.lineWidth = 2;
