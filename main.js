@@ -26,7 +26,7 @@ function init() {
   canvas.addEventListener("mousemove", onCanvasMouseMove);
   canvas.addEventListener("mousedown", onCanvasMouseDown);
 
-  var t = new Tab(canvas, {title: "CSS"});
+  var t = new Tab(canvas, {title: "◈"});
   t.width = 65;
   t.normalBackground = "#ff8c00";
 
