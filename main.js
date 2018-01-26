@@ -384,9 +384,10 @@ var Tab = function(canvas, params) {
 
   this.onMouseDown = function(p) {
     if (pointInRect(p, this.closeButtonRect())) {
-      // TODO: handle close button clicking here
-      this.remove();
-      return ;
+      if (this.active && tabs.length > 1) {
+        this.remove();
+        return ;
+      }
     }
 
     // pointInRect() needs rect's x,y to be at top-left, this.tabRect() x,y is
@@ -405,6 +406,8 @@ var Tab = function(canvas, params) {
   }
 
   this.remove = function(){
+    const index = tabs.indexOf(this);
+    if (index == 0) return ;
     this.active = false;
     document.body.removeChild(this.titleElement);
     tabs.remove(this);
