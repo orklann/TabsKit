@@ -324,6 +324,8 @@ var Tab = function(canvas, params) {
       console.log('Mouse click on close button');
     }
 
+    // pointInRect() needs rect's x,y to be at top-left, this.tabRect() x,y is
+    // at the bottom-left, translate here
     const x = this.tabRect().x;
     const y = this.tabRect().y - this.tabRect().height;
     const rect = {x: x, y: y, width: this.tabRect().width, height: this.tabRect().height};
