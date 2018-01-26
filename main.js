@@ -385,7 +385,8 @@ var Tab = function(canvas, params) {
   this.onMouseDown = function(p) {
     if (pointInRect(p, this.closeButtonRect())) {
       // TODO: handle close button clicking here
-      console.log('Mouse click on close button');
+      this.remove();
+      return ;
     }
 
     // pointInRect() needs rect's x,y to be at top-left, this.tabRect() x,y is
@@ -401,6 +402,14 @@ var Tab = function(canvas, params) {
       this.active = true;
       drawTabbar();
     }
+  }
+
+  this.remove = function(){
+    this.active = false;
+    document.body.removeChild(this.titleElement);
+    tabs.remove(this);
+    tabs[0].active = true;
+    drawTabbar();
   }
 }
 

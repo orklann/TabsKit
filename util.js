@@ -26,9 +26,9 @@ function clear(canvas, color) {
   ctx.restore();
 }
 
-/* test purpose
-function parseInt(x) {
-  console.log("parseInt");
-  return x;
+Array.prototype.remove = function(el) {
+  var i = this.indexOf(el);
+  if(i != -1) {
+	   this.splice(i, 1);
+   }
 }
-*/
