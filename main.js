@@ -323,6 +323,18 @@ var Tab = function(canvas, params) {
       // TODO: handle close button clicking here
       console.log('Mouse click on close button');
     }
+
+    const x = this.tabRect().x;
+    const y = this.tabRect().y - this.tabRect().height;
+    const rect = {x: x, y: y, width: this.tabRect().width, height: this.tabRect().height};
+    if (pointInRect(p, rect)) {
+      tabs.forEach(function(tab){
+        tab.active = false;
+      });
+
+      this.active = true;
+      drawTabbar();
+    }
   }
 }
 
