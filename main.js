@@ -26,8 +26,8 @@ function init() {
   canvas.addEventListener("mousemove", onCanvasMouseMove);
   canvas.addEventListener("mousedown", onCanvasMouseDown);
 
-  var t = new Tab(canvas, {title: "Main"});
-  t.width = 60;
+  var t = new Tab(canvas, {title: "CSS"});
+  t.width = 65;
   t.normalBackground = "#ff8c00";
 
   var t2 = new Tab(canvas, {title: "Typo"});
@@ -36,7 +36,7 @@ function init() {
   var t3 = new Tab(canvas, {title: "Mono"});
   t3.width = 100;
 
-  var t4 = new Tab(canvas, {title: "Mono"});
+  var t4 = new Tab(canvas, {title: "I AM A LONG TITLE"});
   t4.width = 100;
 
   render();

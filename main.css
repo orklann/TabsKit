@@ -57,6 +57,12 @@
 	height: 65px;
 	letter-spacing: 1px;
 	color: rgba(0, 0, 0, 0.8);
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	word-wrap: break-word;
+	overflow: hidden;
+	letter-spacing:0px;
 }
 
 .active-title {
@@ -71,7 +77,14 @@
 	font-variant-caps: normal;
 	font-weight: bold;
 	color: rgba(0, 0, 0, 0.8);
-	margin-left: 4px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding-left: 20px;
+	padding-right: 16px;
+	word-wrap: break-word;
+	overflow: hidden;
+	letter-spacing:0px;
 }
 
 .noselect {
