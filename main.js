@@ -414,20 +414,20 @@ var Tab = function(canvas, params) {
     const y = this.tabRect().y - this.tabRect().height;
     const rect = {x: x, y: y, width: this.tabRect().width, height: this.tabRect().height};
     if (pointInRect(p, rect)) {
-      if (Tabbar.onTabActive) {
-        Tabbar.onTabActive(this);
-      }
       this.activeMe();
     }
   }
 
   this.activeMe = function() {
-    this.active = true;
     Tabbar.activeTab = this;
 
     tabs.forEach(function(tab){
       tab.active = false;
     });
+
+    if (Tabbar.onTabActive) {
+      Tabbar.onTabActive(this);
+    }
 
     this.active = true;
     drawTabbar();
