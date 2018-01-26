@@ -12,7 +12,9 @@ const rightPadding = 14;
 var tabs = [];
 var Tabbar = {
   // Register a callback to onTabClose to get notification
-  onTabClose: null
+  onTabClose: function(tab) {
+    console.log("Tab:[" + tab.title + "] is closing");
+  }
 };
 
 function init() {
