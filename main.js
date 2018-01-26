@@ -28,6 +28,7 @@ function init() {
 
   var t = new Tab(canvas, {title: "◈"});
   t.width = 65;
+  t.canBeClosed = false;
   t.normalBackground = "#ff8c00";
 
   var t2 = new Tab(canvas, {title: "Typo"});
@@ -115,6 +116,7 @@ var Tab = function(canvas, params) {
   tabs.push(this);
   this.normalBackground = normalTabBackground;
   this.titleElement = null;
+  this.canBeClosed = true;
 
   // Render title dom
   this.addTitleDom = function(){
@@ -316,7 +318,10 @@ var Tab = function(canvas, params) {
 
       this.ctx.restore();
     }
-    this.drawCloseButton(attrs.highlightCloseButton);
+
+    if (this.canBeClosed) {
+      this.drawCloseButton(attrs.highlightCloseButton);
+    }
     this.addTitleDom();
     this.layoutTitle();
   }
@@ -384,7 +389,7 @@ var Tab = function(canvas, params) {
 
   this.onMouseDown = function(p) {
     if (pointInRect(p, this.closeButtonRect())) {
-      if (this.active && tabs.length > 1) {
+      if (this.active && tabs.length > 1 && this.canBeClosed) {
         this.remove();
         return ;
       }
