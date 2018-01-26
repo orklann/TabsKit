@@ -11,9 +11,13 @@ const rightPadding = 14;
 
 var tabs = [];
 var Tabbar = {
+  activeTab: null,
   // Register a callback to onTabClose to get notification
   onTabClose: function(tab) {
     console.log("Tab:[" + tab.title + "] is closing");
+  },
+  onTabActive: function(tab) {
+    console.log("Tab:[" + tab.title + "] is about to active");
   }
 };
 
@@ -38,7 +42,6 @@ function init() {
   t.normalBackground = "#ff8c00";
 
   var t2 = new Tab(canvas, {title: "Typo"});
-  t2.active = true;
 
   var t3 = new Tab(canvas, {title: "Mono"});
   t3.width = 100;
@@ -46,6 +49,7 @@ function init() {
   var t4 = new Tab(canvas, {title: "I AM A LONG TITLE"});
   t4.width = 100;
 
+  t2.activeMe();
   render();
 }
 
@@ -410,13 +414,23 @@ var Tab = function(canvas, params) {
     const y = this.tabRect().y - this.tabRect().height;
     const rect = {x: x, y: y, width: this.tabRect().width, height: this.tabRect().height};
     if (pointInRect(p, rect)) {
-      tabs.forEach(function(tab){
-        tab.active = false;
-      });
-
-      this.active = true;
-      drawTabbar();
+      if (Tabbar.onTabActive) {
+        Tabbar.onTabActive(this);
+      }
+      this.activeMe();
     }
+  }
+
+  this.activeMe = function() {
+    this.active = true;
+    Tabbar.activeTab = this;
+
+    tabs.forEach(function(tab){
+      tab.active = false;
+    });
+
+    this.active = true;
+    drawTabbar();
   }
 
   this.remove = function(){
