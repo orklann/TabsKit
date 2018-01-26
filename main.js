@@ -162,7 +162,7 @@ var Tab = function(canvas, params) {
 
       // Substract minY, restore to origin at the end
       const MIN_Y = minY;
-      minY = MIN_Y + 1;
+      minY = MIN_Y - 1;
 
       // Fill path
       this.ctx.beginPath();
